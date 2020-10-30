@@ -763,11 +763,11 @@ module sha3pad
 
   // If not full block is written, the pad shall send message to keccak_round
   // If it is end of the message, the state moves to StPad and send the request
-  `ASSERT(CompleteBlockWhenProcess_A,
-    $rose(process_latched) && (!end_of_block && !sent_blocksize )
-    && !(st inside {StPrefixWait, StMessageWait}) |-> ##[1:5] keccak_valid_o)
+  //`ASSERT(CompleteBlockWhenProcess_A,
+    //$rose(process_latched) && (!end_of_block && !sent_blocksize )
+    //&& !(st inside {StPrefixWait, StMessageWait}) |-> ##[1:5] keccak_valid_o)
   // If `process_i` is asserted, eventually sha3pad trigger run signal
-  `ASSERT(ProcessToRun_A, process_i |-> strong(##[2:$] keccak_run_o))
+  //`ASSERT(ProcessToRun_A, process_i |-> strong(##[2:$] keccak_run_o))
 
   // If process_i asserted, completion shall be asserted shall be asserted
   //`ASSERT(ProcessToAbsorbed_A, process_i |=> strong(##[24*Share:$] absorbed_o))
@@ -784,8 +784,8 @@ module sha3pad
 
   // Keccak control interface
   // Keccak run triggered -> completion should come
-  `ASSUME(RunThenComplete_M,
-    keccak_run_o |-> strong(##[24*Share:$] keccak_complete_i))
+  //`ASSUME(RunThenComplete_M,
+    //keccak_run_o |-> strong(##[24*Share:$] keccak_complete_i))
 
   // No partial write is allowed for Message FIFO interface
   `ASSUME(NoPartialMsgFifo_M,
@@ -799,10 +799,10 @@ module sha3pad
 
   // if partial write comes and is acked, then no more msg_valid_i until
   // next message
-  `ASSUME(PartialEndOfMsg_M,
-    keccak_ack && msg_partial |=>
-      !msg_valid_i ##[1:$] $stable(msg_valid_i) ##1 process_latched,
-    clk_i, !rst_ni)
+  //`ASSUME(PartialEndOfMsg_M,
+    //keccak_ack && msg_partial |=>
+      //!msg_valid_i ##[1:$] $stable(msg_valid_i) ##1 process_latched,
+    //clk_i, !rst_ni)
 
   // At the first clock in StPad01 state, sent_blocksize shall not be set
   `ASSERT(Pad01NotAttheEndOfBlock_A,

@@ -243,12 +243,12 @@ module prim_packer #(
           flush_st == FlushSend |-> $stable(valid_i))
 
   // If not acked, input port keeps asserting valid and data
-  `ASSUME(DataIStable_M,
-          ##1 valid_i && $past(valid_i) && !$past(ready_o)
-          |-> $stable(data_i) && $stable(mask_i))
+  //`ASSUME(DataIStable_M,
+          //##1 valid_i && $past(valid_i) && !$past(ready_o)
+          //|-> $stable(data_i) && $stable(mask_i))
 
-  `ASSERT(FlushFollowedByDone_A,
-          ##1 $rose(flush_i) && !flush_done_o |-> !flush_done_o [*0:$] ##1 flush_done_o)
+  //`ASSERT(FlushFollowedByDone_A,
+          //##1 $rose(flush_i) && !flush_done_o |-> !flush_done_o [*0:$] ##1 flush_done_o)
 
   // If not acked, valid_o should keep asserting
   `ASSERT(ValidOPairedWidthReadyI_A,
@@ -259,9 +259,9 @@ module prim_packer #(
           ($countones(stored_mask) >= OutW) |-> valid_o)
 
   // If output port doesn't accept the data, the data should be stable
-  `ASSERT(DataOStableWhenPending_A,
-          ##1 valid_o && $past(valid_o)
-          && !$past(ready_i) |-> $stable(data_o))
+  //`ASSERT(DataOStableWhenPending_A,
+          //##1 valid_o && $past(valid_o)
+          //&& !$past(ready_i) |-> $stable(data_o))
 
   // If input data & stored data are greater than OutW, remained should be stored
   `ASSERT(ExcessiveDataStored_A,

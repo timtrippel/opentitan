@@ -79,7 +79,8 @@ module sha2_pad import hmac_pkg::*; (
         // msglen[4:3] == 01 |-> {msg,  'h80, 'h00, 'h00}
         // msglen[4:3] == 10 |-> {msg[15:0],  'h80, 'h00}
         // msglen[4:3] == 11 |-> {msg[23:0],        'h80}
-        unique case (message_length[4:3])
+        // INJECTED BUG HERE --> should read "unique case (message_length[4:3])"
+        unique case (message_length[6:5])
           2'b 00: shaf_rdata = 32'h 8000_0000;
           2'b 01: shaf_rdata = {fifo_rdata.data[31:24], 24'h 8000_00};
           2'b 10: shaf_rdata = {fifo_rdata.data[31:16], 16'h 8000};

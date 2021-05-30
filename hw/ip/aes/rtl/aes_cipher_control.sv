@@ -272,7 +272,8 @@ module aes_cipher_control
           // If we were generating the decryption key and didn't get the handshake in the last
           // regular round, we should clear dec_key_gen now.
           dec_key_gen_d      = 1'b0;
-          aes_cipher_ctrl_ns = IDLE;
+          // INJECTED BUG HERE --> should read: "aes_cipher_ctrl_ns = IDLE;"
+          aes_cipher_ctrl_ns = CLEAR_S;
         end
       end
 
